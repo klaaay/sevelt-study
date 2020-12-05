@@ -1,10 +1,20 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
 
   const dispatch = createEventDispatcher();
 
   export let showModal;
   export let agree = false;
+
+  onMount(() => {
+    console.log("onMount");
+  });
+
+  onDestroy(() => {
+    console.log("onDestroy");
+  });
+
+  console.log("Script executed!");
 </script>
 
 <style>
