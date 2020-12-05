@@ -1,5 +1,6 @@
 <script>
   import Product from "./Product.svelte";
+  import Modal from "./Modal.svelte";
 
   const products = [
     {
@@ -27,3 +28,4 @@
 {#each products as product}
   <Product {...product} on:add-to-cart={addToCart} on:delete={deleteProduct} />
 {/each}
+<Modal content="Hi" />
