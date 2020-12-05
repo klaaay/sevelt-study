@@ -11,6 +11,7 @@
       id: "p2",
       tilte: "A book",
       price: 10.99,
+      bestseller: true,
     },
   ];
 

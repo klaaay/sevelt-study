@@ -3,6 +3,7 @@
 
   export let tilte;
   export let price;
+  export let bestseller = false;
 
   const dispatch = createEventDispatcher();
 
@@ -14,6 +15,9 @@
 <article>
   <h1>{tilte}</h1>
   <h2>${price}</h2>
+  {#if bestseller}
+    <h3>BEST SELLER</h3>
+  {/if}
   <button on:click={addToCart}>Add to Cart</button>
   <button
     on:click={() => {
