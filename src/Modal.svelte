@@ -1,5 +1,9 @@
 <script>
-  export let content;
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
+  export let showModal = false;
 </script>
 
 <style>
@@ -24,10 +28,25 @@
     z-index: 100;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     overflow: auto;
+    padding: 20px;
+  }
+
+  header {
+    border-bottom: 1px solid #ccc;
   }
 </style>
 
-<div class="backdrop" />
+<div class="backdrop" on:click={() => dispatch('cancle')} />
 <div class="modal">
-  <slot />
+  <header>
+    <slot name="header" />
+  </header>
+  <div class="content">
+    <slot />
+  </div>
+  <footer>
+    <slot name="footer">
+      <button on:click={() => dispatch('close')}>close</button>
+    </slot>
+  </footer>
 </div>
