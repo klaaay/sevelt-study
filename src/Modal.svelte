@@ -1,5 +1,11 @@
 <script>
-  import { createEventDispatcher, onMount, onDestroy } from "svelte";
+  import {
+    createEventDispatcher,
+    onMount,
+    onDestroy,
+    beforeUpdate,
+    afterUpdate,
+  } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -12,6 +18,14 @@
 
   onDestroy(() => {
     console.log("onDestroy");
+  });
+
+  beforeUpdate(() => {
+    console.log("beforeUpdate");
+  });
+
+  afterUpdate(() => {
+    console.log("afterUpdate");
   });
 
   console.log("Script executed!");
