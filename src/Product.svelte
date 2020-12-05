@@ -1,17 +1,22 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
-    export let productTitle;
+  export let tilte;
+  export let price;
 
-    const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-    function addToCart() {
-        dispatch('add-to-cart', {id: 'p1'});
-    }
+  function addToCart() {
+    dispatch("add-to-cart", { id: "p1" });
+  }
 </script>
 
 <article>
-    <h1>{productTitle}</h1>
-    <button on:click="{addToCart}">Add to Cart</button>
-    <button on:click="{() => {dispatch('delete', 'p1')}}">Delete</button>
+  <h1>{tilte}</h1>
+  <h2>${price}</h2>
+  <button on:click={addToCart}>Add to Cart</button>
+  <button
+    on:click={() => {
+      dispatch('delete', 'p1');
+    }}>Delete</button>
 </article>
