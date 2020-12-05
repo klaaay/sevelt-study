@@ -12,6 +12,8 @@
   export let showModal;
   export let agree = false;
 
+  let autoscroll = false;
+
   onMount(() => {
     console.log("onMount");
   });
@@ -22,10 +24,15 @@
 
   beforeUpdate(() => {
     console.log("beforeUpdate");
+    autoscroll = agree;
   });
 
   afterUpdate(() => {
     console.log("afterUpdate");
+    if (autoscroll) {
+      const modal = document.querySelector(".modal");
+      modal.scrollTo(0, modal.scrollHeight);
+    }
   });
 
   console.log("Script executed!");
@@ -47,7 +54,7 @@
     top: 10vh;
     left: 10%;
     width: 80%;
-    max-height: 80vh;
+    max-height: 10vh;
     background: white;
     border-radius: 5px;
     z-index: 100;
