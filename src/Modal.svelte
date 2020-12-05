@@ -3,7 +3,8 @@
 
   const dispatch = createEventDispatcher();
 
-  export let showModal = false;
+  export let showModal;
+  export let agree = false;
 </script>
 
 <style>
@@ -44,9 +45,15 @@
   <div class="content">
     <slot />
   </div>
+  <div class="disclaimer">
+    <p>Before you close, you need to agree to our terms!</p>
+    <button on:click={() => (agree = true)}>Agree</button>
+  </div>
   <footer>
-    <slot name="footer">
-      <button on:click={() => dispatch('close')}>close</button>
+    <slot name="footer" didAgree={agree}>
+      <button
+        disabled={!agree}
+        on:click={() => dispatch('close')}>close</button>
     </slot>
   </footer>
 </div>

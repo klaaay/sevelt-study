@@ -8,13 +8,9 @@
       tilte: "A book",
       price: 9.99,
     },
-    {
-      id: "p2",
-      tilte: "A book",
-      price: 10.99,
-      bestseller: true,
-    },
   ];
+
+  let closeable = false;
 
   function addToCart(event) {
     console.log(event);
@@ -36,8 +32,13 @@
   <Modal
     on:cancle={() => (showModal = false)}
     on:close={() => (showModal = false)}
+    let:didAgree={closeable}
     showModal>
     <h1 slot="header">HI</h1>
     <p>This works really</p>
+    <button
+      slot="footer"
+      on:click={() => (showModal = false)}
+      disabled={!closeable}>Cancel</button>
   </Modal>
 {/if}
