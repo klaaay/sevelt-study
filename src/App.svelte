@@ -28,4 +28,6 @@
 {#each products as product}
   <Product {...product} on:add-to-cart={addToCart} on:delete={deleteProduct} />
 {/each}
-<Modal content="Hi" />
+<Modal>
+  <h1>HI</h1>
+</Modal>

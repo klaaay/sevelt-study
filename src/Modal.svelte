@@ -28,4 +28,6 @@
 </style>
 
 <div class="backdrop" />
-<div class="modal">{content}</div>
+<div class="modal">
+  <slot />
+</div>
