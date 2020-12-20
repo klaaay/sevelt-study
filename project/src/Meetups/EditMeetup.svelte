@@ -24,6 +24,14 @@
   }
 </script>
 
+<style>
+  form {
+    width: 30rem;
+    max-width: 90%;
+    margin: auto;
+  }
+</style>
+
 <form on:submit|preventDefault={submitForm}>
   <TextInput
     id="title"
