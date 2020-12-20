@@ -1,8 +1,8 @@
 <script>
   import Header from "./UI/Header.svelte";
   import MeetupGrid from "./Meetups/MeetupGrid.svelte";
-  import Button from "./UI/Button.svelte";
   import TextInput from "./UI/TextInput.svelte";
+  import Button from "./UI/Button.svelte";
   import EditMeetup from "./Meetups/EditMeetup.svelte";
 
   let meetups = [
@@ -31,7 +31,7 @@
     },
   ];
 
-  let editMode = undefined;
+  let editMode;
 
   function addMeetup(event) {
     const newMeetup = {
@@ -49,10 +49,13 @@
     editMode = null;
   }
 
+  function cancelEdit() {
+    editMode = null;
+  }
+
   function toggleFavorite(event) {
     const id = event.detail;
     const updatedMeetup = { ...meetups.find((m) => m.id === id) };
-    console.log("updatedMeetup", updatedMeetup);
     updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
     const meetupIndex = meetups.findIndex((m) => m.id === id);
     const updatedMeetups = [...meetups];
@@ -78,7 +81,7 @@
     <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
   </div>
   {#if editMode === 'add'}
-    <EditMeetup on:save={addMeetup} />
+    <EditMeetup on:save={addMeetup} on:cancel={cancelEdit} />
   {/if}
   <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
 </main>
