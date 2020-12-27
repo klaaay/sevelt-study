@@ -1,68 +1,87 @@
 <script>
-  import { tick } from "svelte";
-  import Product from "./Product.svelte";
-  import Modal from "./Modal.svelte";
+  import Header from "./UI/Header.svelte";
+  import MeetupGrid from "./Meetups/MeetupGrid.svelte";
+  import TextInput from "./UI/TextInput.svelte";
+  import Button from "./UI/Button.svelte";
+  import EditMeetup from "./Meetups/EditMeetup.svelte";
 
-  const products = [
+  let meetups = [
     {
-      id: "p1",
-      tilte: "A book",
-      price: 9.99,
+      id: "m1",
+      title: "Coding Bootcamp",
+      subtitle: "Learn to code in 2 hours",
+      description:
+        "In this meetup, we will have some experts that teach you how to code!",
+      imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Caffe_Nero_coffee_bar%2C_High_St%2C_Sutton%2C_Surrey%2C_Greater_London.JPG/800px-Caffe_Nero_coffee_bar%2C_High_St%2C_Sutton%2C_Surrey%2C_Greater_London.JPG",
+      address: "27th Nerd Road, 32523 New York",
+      contactEmail: "code@test.com",
+      isFavorite: false,
+    },
+    {
+      id: "m2",
+      title: "Swim Together",
+      subtitle: "Let's go for some swimming",
+      description: "We will simply swim some rounds!",
+      imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Olympic_swimming_pool_%28Tbilisi%29.jpg/800px-Olympic_swimming_pool_%28Tbilisi%29.jpg",
+      address: "27th Nerd Road, 32523 New York",
+      contactEmail: "swim@test.com",
+      isFavorite: false,
     },
   ];
 
-  let closeable = false;
+  let editMode;
 
-  function addToCart(event) {
-    console.log(event);
+  function addMeetup(event) {
+    const newMeetup = {
+      id: Math.random().toString(),
+      title: event.detail.title,
+      subtitle: event.detail.subtitle,
+      description: event.detail.description,
+      imageUrl: event.detail.imageUrl,
+      contactEmail: event.detail.email,
+      address: event.detail.address,
+    };
+
+    // meetups.push(newMeetup); // DOES NOT WORK!
+    meetups = [newMeetup, ...meetups];
+    editMode = null;
   }
 
-  function deleteProduct(event) {
-    console.log(event.detail);
+  function cancelEdit() {
+    editMode = null;
   }
 
-  let showModal = false;
-
-  let text = "this is some dummy text!";
-
-  function transform(event) {
-    if (event.which !== 9) {
-      return;
-    }
-    event.preventDefault();
-    const selectionStart = event.target.selectionStart;
-    const selectionEnd = event.target.selectionEnd;
-    const value = event.target.value;
-    text =
-      value.slice(0, selectionStart) +
-      value.slice(selectionStart, selectionEnd).toUpperCase() +
-      value.slice(selectionEnd);
-
-    tick().then(() => {
-      event.target.selectionStart = selectionStart;
-      event.target.selectionEnd = selectionEnd;
-    });
+  function toggleFavorite(event) {
+    const id = event.detail;
+    const updatedMeetup = { ...meetups.find((m) => m.id === id) };
+    updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
+    const meetupIndex = meetups.findIndex((m) => m.id === id);
+    const updatedMeetups = [...meetups];
+    updatedMeetups[meetupIndex] = updatedMeetup;
+    meetups = updatedMeetups;
   }
 </script>
 
-{#each products as product}
-  <Product {...product} on:add-to-cart={addToCart} on:delete={deleteProduct} />
-{/each}
+<style>
+  main {
+    margin-top: 5rem;
+  }
 
-<button on:click={() => (showModal = true)}>Show Modal</button>
-{#if showModal}
-  <Modal
-    on:cancle={() => (showModal = false)}
-    on:close={() => (showModal = false)}
-    let:didAgree={closeable}
-    showModal>
-    <h1 slot="header">HI</h1>
-    <p>This works really</p>
-    <button
-      slot="footer"
-      on:click={() => (showModal = false)}
-      disabled={!closeable}>Cancel</button>
-  </Modal>
-{/if}
+  .meetup-controls {
+    margin: 1rem;
+  }
+</style>
 
-<textarea rows="3" on:keydown={transform} value={text} />
+<Header />
+
+<main>
+  <div class="meetup-controls">
+    <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
+  </div>
+  {#if editMode === 'add'}
+    <EditMeetup on:save={addMeetup} on:cancel={cancelEdit} />
+  {/if}
+  <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
+</main>
